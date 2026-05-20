@@ -57,22 +57,23 @@ model_rf, model_lr = load_models()
 
 
 # Predicción
+# Predicción
 if st.button("🚀 Predecir Riesgo"):
-    col1, col2 = st.columns(2)
-    print("Columnas esperadas por el modelo:", model_rf.feature_names_in_)
-    print("Columnas que le estoy enviando:", df_input.columns.tolist())
-
-    # 1. Define los nombres de las columnas en el MISMO ORDEN
-    columnas_modelo = ['nombre_columna_1', 'nombre_columna_2', 'nombre_columna_3'] 
-
-    # 2. Crea el DataFrames
-    # Sustituye 'valor1', 'valor2', etc. por las variables que vienen de tus widgets de Streamlit
-    df_input = pd.DataFrame([[valor1, valor2, valor3]], columns=columnas_modelo)
-
-    # Predicción (esto ya no debería dar el ValueError)
-    pred_rf = model_rf.predict(df_input)[0]
+    # 1. Definimos las columnas exactas que tu modelo espera.
+    # ¡IMPORTANTE! Sustituye estos nombres por los que obtengas en los logs (ej: 'age', 'income', etc.)
+    columnas_esperadas = ['age', 'income', 'credit_amount', 'duration']
     
-    # Lógica de visualización
+    # 2. Aseguramos que el df_input tenga exactamente esas columnas y en ese orden
+    df_final = df_input[columnas_esperadas]
+    
+    # Debug: ver qué le llega realmente al modelo
+    print("Columnas que le envío al modelo:", df_final.columns.tolist())
+    
+    # 3. Realizamos la predicción con el dataframe ya ordenado
+    pred_rf = model_rf.predict(df_final)[0]
+    
+    # 4. Lógica de visualización
+    col1, col2 = st.columns(2)
     with col1:
         st.subheader("Resultado Random Forest")
         if pred_rf == 1:
@@ -81,10 +82,5 @@ if st.button("🚀 Predecir Riesgo"):
             st.error("⚠️ Riesgo: Malo (Rechazado)")
             
     with col2:
-        # Aquí podrías comparar o promediar resultados
         st.info("El modelo RF ha analizado tus datos con precisión.")
         st.balloons()
-
-# Pie de página
-st.markdown("---")
-st.caption("Desarrollado con Streamlit por un apasionado del Data Science.")
