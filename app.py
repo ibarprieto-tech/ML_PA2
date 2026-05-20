@@ -83,7 +83,7 @@ if st.button("🚀 Predecir Riesgo"):
         
         # 2. Aplicamos get_dummies para que las columnas coincidan con las 48 que espera el modelo
         # IMPORTANTE: Debes usar las mismas columnas que se generaron en el entrenamiento
-        df_final = pd.get_dummies(df_input)
+    df_final = pd.get_dummies(df_input)
         
         # 3. Alineamos las columnas: obligamos a que el DF tenga exactamente las 48 columnas del modelo
         # Si una columna no existe en el input, se rellena con 0
