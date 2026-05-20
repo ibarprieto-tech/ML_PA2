@@ -59,7 +59,8 @@ model_rf, model_lr = load_models()
 # Predicción
 if st.button("🚀 Predecir Riesgo"):
     col1, col2 = st.columns(2)
-    
+    print("Columnas esperadas por el modelo:", model_rf.feature_names_in_)
+    print("Columnas que le estoy enviando:", df_input.columns.tolist())
     # Predicción Random Forest
     pred_rf = model_rf.predict(df_input)[0]
     
