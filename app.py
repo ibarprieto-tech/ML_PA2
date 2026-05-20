@@ -16,9 +16,7 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# Título y Descripción
 st.title("💳 Predictor Inteligente de Riesgo Crediticio")
-st.markdown("Este aplicativo evalúa la salud crediticia de un cliente utilizando modelos de IA.")
 
 # Barra lateral para entradas
 st.sidebar.header("Datos del Cliente")
@@ -56,8 +54,38 @@ model_rf, model_lr = load_models()
 
 # Predicción
 if st.button("🚀 Predecir Riesgo"):
+    st.write("Procesando predicción...") # Mensaje para confirmar que el botón funciona
+    
     # Obtenemos las 48 columnas que espera el modelo
     columnas_modelo = model_rf.feature_names_in_
 
     # Creamos un DataFrame base lleno de ceros
     df_final = pd.DataFrame(0, index=[0], columns=columnas_modelo)
+
+    # Llenamos con los datos del usuario
+    # Nos aseguramos de que existan en el modelo para evitar errores de llave
+    for col in ['age', 'duration', 'credit_amount']:
+        if col in df_final.columns:
+            df_final[col] = df_input[col].iloc[0]
+    
+    try:
+        # Realizamos la predicción
+        pred_rf = model_rf.predict(df_final)[0]
+        
+        st.write("¡Predicción completada!") # Mensaje de éxito
+        
+        col1, col2 = st.columns(2)
+        with col1:
+            st.subheader("Resultado Random Forest")
+            if pred_rf == 1:
+                st.success("✅ Riesgo: Bueno (Aprobado)")
+            else:
+                st.error("⚠️ Riesgo: Malo (Rechazado)")
+        with col2:
+            st.info("El modelo ha analizado tus datos.")
+            st.balloons()
+            
+    except Exception as e:
+        st.error(f"Error técnico durante la predicción: {e}")
+        st.write("Detalles del error para depuración:")
+        st.write(e)
