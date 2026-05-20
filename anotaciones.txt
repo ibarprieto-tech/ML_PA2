@@ -1,0 +1,8 @@
+Actúa como un desarrollador experto en Python y Streamlit. Tengo dos modelos de Machine Learning desarrollados en Colab (Randon Forest y Regresión Lineal) guardados en 2 archivo 'modelo_rf.pkl' y 'modelo_lr.pkl' que predicen el riesgo crediticio de un cliente (1 = Good, 0 = Bad) basado en el dataset 'credit_customers.csv' que está en google drive. Crea el código para un archivo app.py usando Streamlit que tenga lo siguiente:
+Un título y descripción clara del aplicativo.
+Controles interactivos (sliders, selectboxes, number_inputs) en la barra lateral (sidebar) o en la pantalla principal para que el usuario ingrese los datos de un cliente.
+Usa un botón de 'Predecir'.
+Al presionar el botón, carga ambos modelos  '.pkl', haz la predicción y muestra si el cliente es un riesgo 'Bueno' o 'Malo' usando alertas de colores (success para bueno, error/warning para malo).
+Añade un enlace a mi cuaderno de Google Colab en el texto de introducción.
+El diseño de la página debe ser dinámico y divertido"
+Ten en cuenta que  los archivos modelo_rf y modelo_lr están dentro de una carpeta llamada modelos
