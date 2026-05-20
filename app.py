@@ -27,17 +27,21 @@ Puedes revisar el desarrollo técnico detallado en mi [Cuaderno de Google Colab]
 st.sidebar.header("Datos del Cliente")
 
 def user_input_features():
+    # 1. Asegúrate de capturar el input en la variable 'credit_amount'
     age = st.sidebar.slider("Edad", 18, 90, 30)
     income = st.sidebar.number_input("Ingresos Mensuales ($)", 500, 20000, 2000)
-    # ... y así con los demás
     
-    # IMPORTANTE: Los nombres aquí deben ser IDÉNTICOS a lo que viste en 
-    # "Lo que espera el modelo"
+    # Esta es la línea que posiblemente te falta o tiene un nombre distinto:
+    credit_amount = st.sidebar.number_input("Monto de Crédito Solicitado ($)", 100, 50000, 5000)
+    
+    duration = st.sidebar.selectbox("Duración del crédito (meses)", [6, 12, 18, 24, 36, 48])
+    
+    # 2. Ahora el diccionario usará la variable que definiste arriba
     data = {
-        'Age': age, 
-        'Income': income, 
-        'Credit_amount': credit_amount, 
-        'Duration': duration
+        'age': age, 
+        'income': income, 
+        'credit_amount': credit_amount, 
+        'duration': duration
     }
     return pd.DataFrame(data, index=[0])
 
