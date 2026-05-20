@@ -61,7 +61,15 @@ if st.button("🚀 Predecir Riesgo"):
     col1, col2 = st.columns(2)
     print("Columnas esperadas por el modelo:", model_rf.feature_names_in_)
     print("Columnas que le estoy enviando:", df_input.columns.tolist())
-    # Predicción Random Forest
+
+    # 1. Define los nombres de las columnas en el MISMO ORDEN
+    columnas_modelo = ['nombre_columna_1', 'nombre_columna_2', 'nombre_columna_3'] 
+
+    # 2. Crea el DataFrames
+    # Sustituye 'valor1', 'valor2', etc. por las variables que vienen de tus widgets de Streamlit
+    df_input = pd.DataFrame([[valor1, valor2, valor3]], columns=columnas_modelo)
+
+    # Predicción (esto ya no debería dar el ValueError)
     pred_rf = model_rf.predict(df_input)[0]
     
     # Lógica de visualización
