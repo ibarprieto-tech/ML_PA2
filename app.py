@@ -27,13 +27,18 @@ Puedes revisar el desarrollo técnico detallado en mi [Cuaderno de Google Colab]
 st.sidebar.header("Datos del Cliente")
 
 def user_input_features():
-    # Asume que estas son las columnas de tu dataset
     age = st.sidebar.slider("Edad", 18, 90, 30)
     income = st.sidebar.number_input("Ingresos Mensuales ($)", 500, 20000, 2000)
-    credit_amount = st.sidebar.number_input("Monto de Crédito Solicitado ($)", 100, 50000, 5000)
-    duration = st.sidebar.selectbox("Duración del crédito (meses)", [6, 12, 18, 24, 36, 48])
+    # ... y así con los demás
     
-    data = {'age': age, 'income': income, 'credit_amount': credit_amount, 'duration': duration}
+    # IMPORTANTE: Los nombres aquí deben ser IDÉNTICOS a lo que viste en 
+    # "Lo que espera el modelo"
+    data = {
+        'Age': age, 
+        'Income': income, 
+        'Credit_amount': credit_amount, 
+        'Duration': duration
+    }
     return pd.DataFrame(data, index=[0])
 
 df_input = user_input_features()
@@ -55,32 +60,24 @@ def load_models():
 
 model_rf, model_lr = load_models()
 
-
-# Predicción
 # Predicción
 if st.button("🚀 Predecir Riesgo"):
-    # 1. Definimos las columnas exactas que tu modelo espera.
-    # ¡IMPORTANTE! Sustituye estos nombres por los que obtengas en los logs (ej: 'age', 'income', etc.)
-    columnas_esperadas = ['age', 'income', 'credit_amount', 'duration']
+    # Imprimimos lo que el modelo espera y lo que le enviamos
+    st.write("---")
+    st.write("Depuración de columnas:")
+    st.write("Lo que espera el modelo:", model_rf.feature_names_in_.tolist())
+    st.write("Lo que le envío yo:", df_input.columns.tolist())
     
-    # 2. Aseguramos que el df_input tenga exactamente esas columnas y en ese orden
-    df_final = df_input[columnas_esperadas]
-    
-    # Debug: ver qué le llega realmente al modelo
-    print("Columnas que le envío al modelo:", df_final.columns.tolist())
-    
-    # 3. Realizamos la predicción con el dataframe ya ordenado
-    pred_rf = model_rf.predict(df_final)[0]
-    
-    # 4. Lógica de visualización
-    col1, col2 = st.columns(2)
-    with col1:
-        st.subheader("Resultado Random Forest")
+    try:
+        # Intentamos predecir
+        pred_rf = model_rf.predict(df_input)[0]
+        
+        # Mostrar resultado
         if pred_rf == 1:
             st.success("✅ Riesgo: Bueno (Aprobado)")
         else:
             st.error("⚠️ Riesgo: Malo (Rechazado)")
             
-    with col2:
-        st.info("El modelo RF ha analizado tus datos con precisión.")
-        st.balloons()
+    except Exception as e:
+        st.error(f"Error durante la predicción: {e}")
+        st.write("Revisa los logs de Streamlit para ver el detalle técnico.")
