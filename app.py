@@ -73,7 +73,7 @@ if st.button("🚀 Predecir Riesgo"):
     st.write("Lo que le envío yo:", df_input.columns.tolist())
 
         # 1. Creamos un DataFrame con los datos de entrada
-        data = {
+data = {
             'duration': [duration],
             'credit_amount': [credit_amount],
             'age': [age],
