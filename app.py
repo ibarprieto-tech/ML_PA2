@@ -1,7 +1,8 @@
+import joblib
 import streamlit as st
 import pandas as pd
+import sklearn
 import os
-import joblib
 
 # Configuración de página
 st.set_page_config(page_title="Predicción de Riesgo Crediticio", page_icon="💳", layout="wide")
