@@ -87,8 +87,8 @@ if st.button("🚀 Predecir Riesgo"):
         
         # 3. Alineamos las columnas: obligamos a que el DF tenga exactamente las 48 columnas del modelo
         # Si una columna no existe en el input, se rellena con 0
-        columnas_modelo = model_rf.feature_names_in_
-        df_final = df_final.reindex(columns=columnas_modelo, fill_value=0)
+    columnas_modelo = model_rf.feature_names_in_
+    df_final = df_final.reindex(columns=columnas_modelo, fill_value=0)
         
     try:
         # Intentamos predecir
