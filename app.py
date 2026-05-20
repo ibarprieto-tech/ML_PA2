@@ -73,13 +73,13 @@ if st.button("🚀 Predecir Riesgo"):
     st.write("Lo que le envío yo:", df_input.columns.tolist())
 
         # 1. Creamos un DataFrame con los datos de entrada
-data = {
+    data = {
             'duration': [duration],
             'credit_amount': [credit_amount],
             'age': [age],
             # ... añade aquí el resto de variables que usaste en el entrenamiento
         }
-        df_input = pd.DataFrame(data)
+    df_input = pd.DataFrame(data)
         
         # 2. Aplicamos get_dummies para que las columnas coincidan con las 48 que espera el modelo
         # IMPORTANTE: Debes usar las mismas columnas que se generaron en el entrenamiento
