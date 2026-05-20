@@ -71,10 +71,28 @@ if st.button("🚀 Predecir Riesgo"):
     st.write("Depuración de columnas:")
     st.write("Lo que espera el modelo:", model_rf.feature_names_in_.tolist())
     st.write("Lo que le envío yo:", df_input.columns.tolist())
-    
+
+        # 1. Creamos un DataFrame con los datos de entrada
+        data = {
+            'duration': [duration],
+            'credit_amount': [credit_amount],
+            'age': [age],
+            # ... añade aquí el resto de variables que usaste en el entrenamiento
+        }
+        df_input = pd.DataFrame(data)
+        
+        # 2. Aplicamos get_dummies para que las columnas coincidan con las 48 que espera el modelo
+        # IMPORTANTE: Debes usar las mismas columnas que se generaron en el entrenamiento
+        df_final = pd.get_dummies(df_input)
+        
+        # 3. Alineamos las columnas: obligamos a que el DF tenga exactamente las 48 columnas del modelo
+        # Si una columna no existe en el input, se rellena con 0
+        columnas_modelo = model_rf.feature_names_in_
+        df_final = df_final.reindex(columns=columnas_modelo, fill_value=0)
+        
     try:
         # Intentamos predecir
-        pred_rf = model_rf.predict(df_input)[0]
+        pred_rf = model_rf.predict(df_final)[0]
         
         # Mostrar resultado
         if pred_rf == 1:
